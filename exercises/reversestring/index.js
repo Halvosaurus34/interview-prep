@@ -7,12 +7,10 @@
 //   reverse('Greetings!') === '!sgniteerG'
 
 function reverse(str) {
-    var revString = []
+    var revString = ""
     for (var i = str.length-1; i>=0; i-- ){
-        revString.push(str[i])
+        revString += str[i]
     }
-    revString = revString.join('')
-
     return revString
 }
 
