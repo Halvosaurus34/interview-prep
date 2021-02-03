@@ -8,6 +8,13 @@
 // Example:
 //   fib(4) === 3
 
-function fib(n) {}
+function fib(n) {
+    var fib = [0, 1]
+    for (var i = 2; i <= n; i++){
+        var newNum = fib[i-2] + fib[i-1]
+        fib.push(newNum)
+    }
+    return fib[n]
+}
 
 module.exports = fib;
