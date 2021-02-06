@@ -34,6 +34,10 @@ class LinkedList {
     }
 
     getLast(){
+        if(!this.head){
+            return null
+        }
+
         var node = this.head
 
         while(node.next){
@@ -48,6 +52,9 @@ class LinkedList {
     }
 
     removeFirst(){
+        if(!this.head){
+            return
+        }
         this.head = this.head.next
     }
 
@@ -63,39 +70,89 @@ class LinkedList {
             while(node.next){
                 nextNode = node
                 node = node.next
-                console.log(node)
             }
         } 
         
-        if (nextNode){
-            nextNode.next = null
-        } else {
-            node = null
-        }
+        nextNode.next = null
     }
 
     insertLast(data){
-        var newNode = new Node(data)
-        var node = this.head
-        while(node.next){
-            node = node.next
-            console.log(node)
+        const last = this.getLast()
+
+        if (last) {
+            last.next = new Node(data)
+        } else {
+            this.head = new Node(data)
         }
-        node.next = newNode
     }
 
     getAt(n){
         var counter = 0
         var node = this.head
-        var nextNode = null
 
-        while(counter<=n){
+        while (node) {
+            if (counter === n){
+                return node
+            }
             counter++
-            nextNode = node
             node = node.next
-            console.log(node)
         }
-        return nextNode
+        return null
+    }
+
+    removeAt(n){
+        if (!this.head){
+            return
+        }
+
+        if (n === 0){
+            this.head = this.head.next
+            return
+        }
+
+        const previous = this.getAt(n - 1)
+        if (!previous || !previous.next){
+            return
+        }
+        previous.next = previous.next.next
+    }
+
+    insertAt(data, n){
+        const newNode = new Node(data)
+        if (!this.head){
+            this.head = newNode
+            return
+        }
+        if (n===0){
+            this.insertFirst(data)
+            return
+        }
+        const previous = this.getAt(n - 1)
+        if (!previous || !previous.next){
+            return this.insertLast(data)
+        }
+        const next = previous.next
+
+        previous.next = newNode
+        newNode.next = next
+    }
+
+    forEach(fn){
+        var node = this.head
+        var counter = 0
+        while (node) {
+            fn(node, counter)
+            node=node.next
+            counter++
+        }
+    }
+
+    *[Symbol.iterator](){
+        var node = this.head
+        while(node){
+            yield node
+            node = node.next
+        }
     }
 }
 
